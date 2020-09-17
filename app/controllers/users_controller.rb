@@ -6,13 +6,13 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(user: params[:user])
+    @user = User.create(uid: params[:uid])
     render json: @user
   end
 
   def update
     @user = User.find(params[:id])
-    @user.update_attributes(user: params[:user])
+    @user.update_attributes(uid: params[:uid])
     render json: @user
   end
 
