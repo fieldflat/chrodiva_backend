@@ -5,9 +5,22 @@ class UsersController < ApplicationController
     render json: @users
   end
 
+  # {
+  #   "user": {
+  #     "name": "Tomonori HIRATA",
+  #     "uid": "Tomonori_uid",
+  #     "twitter_uid": "Tomonori_twitter_uid",
+  #     "password": "Password",
+  #     "password_confirmation": "Password"
+  #   }
+  # }
   def create
-    @user = User.create(uid: params[:uid])
-    render json: @user
+    @user = User.new(user_params)
+    if @user.save
+      render json: @user
+    else
+      render json: @user.errors
+    end
   end
 
   def update
@@ -24,5 +37,12 @@ class UsersController < ApplicationController
       render json: @user.errors, status: :unprocessable_entity
     end
   end
+
+  private
+
+    def user_params
+      params.require(:user).permit(:name, :password, :uid, :twitter_uid,
+                                   :password_confirmation)
+    end
 
 end
